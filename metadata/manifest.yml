@@ -11,7 +11,7 @@ Version: '1'
 License: MIT license
 Cartridge-Version: 0.0.1
 Cartridge-Vendor: andershedstrom
-Source-Url: git@github.com:andershedstrom/openshift-community-artifactory.git
+Source-Url: https://github.com/andershedstrom/openshift-community-artifactory.git
 Categories:
 - web_framework
 - instant_app
