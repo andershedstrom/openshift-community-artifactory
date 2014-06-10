@@ -1,7 +1,7 @@
 <Server port="8015" shutdown="SHUTDOWN">
 
     <Service name="Catalina">
-        <Connector port="<%= ENV['OPENSHIFT_ARTIFACTORY_PORT']%>"/>
+        <Connector port="<%= ENV['OPENSHIFT_ARTIFACTORY_PORT']%>" address="<%= ENV['OPENSHIFT_ARTIFACTORY_IP']%>"/>
 
         <Engine name="Catalina" defaultHost="localhost">
             <Host name="localhost" appBase="webapps"/>
