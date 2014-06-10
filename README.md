@@ -1,5 +1,22 @@
-# OpenShift Mock Cartridge
+# OpenShift Artifactory Cartridge
 
-This is a mock implementation of the [OpenShift Cartridge API](http://openshift.github.io/documentation/oo_cartridge_developers_guide.html) which is used to test the OpenShift node platform functionality. The mock cartridges maintains a store of what actions have been performed and provides methods to test for those actions.  
+This cartridge runs Artifactory on OpenShift
 
-This cartridge was intentionally omitted from the [OpenShift Cartridge Guide](http://openshift.github.io/documentation/oo_cartridge_guide.html).
+### Installation
+  
+    rhc create-app YOUR_APP_NAME https://raw.githubusercontent.com/andershedstrom/openshift-community-artifactory/master/metadata/manifest.yml
+    
+Give some time to start up...
+
+For the Artifactory user guide please visit: [Jfrog wiki](http://wiki.jfrog.org/confluence/display/RTF)
+
+
+    The default administrator user is:
+
+    username: admin
+    password: password
+    
+
+
+
+    
