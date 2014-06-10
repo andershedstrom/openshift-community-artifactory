@@ -34,7 +34,7 @@ Endpoints:
   Mappings:
   - Frontend: ''
     Backend: ''
-    Options: {tohttps: true}
+    Options: {tohttps: false}
 Scaling:
   Min: 1
   Max: 1
