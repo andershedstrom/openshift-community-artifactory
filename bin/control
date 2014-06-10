@@ -1,0 +1,96 @@
+#!/bin/bash -eu
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+cartridge_type="artifactory"
+
+function wait_for_stop {
+    pid=$1
+    for i in {1..60}
+    do
+        if `ps --pid $pid > /dev/null 2>&1`
+        then
+            echo "Waiting for stop to finish"
+            sleep .5
+        else
+            break
+        fi
+    done
+}
+
+function isrunning() {
+    # Check for running app
+    pid=`pgrep -f ".*java.*artifactory.*catalina.*Bootstrap.*" 2> /dev/null`
+    if [ -n "$pid" ]
+    then
+        return 0
+    fi
+    # not running
+    return 1
+}
+
+
+function start {
+  echo "Starting $cartridge_type cartridge"
+
+  if isrunning
+  then
+    echo "Application is already running!" 1>&2
+    exit 0
+  fi
+
+
+  nohup $OPENSHIFT_ARTIFACTORY_DIR/bin_art/artifactory.sh > /dev/null 2>&1 &
+}
+
+function stop {
+  echo "Stopping $cartridge_type cartridge"
+
+  if isrunning
+  then
+    kill -TERM $pid > /dev/null 2>&1
+    wait_for_stop $pid
+  else
+    echo "Application is already stopped!" 1>&2
+  fi
+}
+
+function restart {
+  stop
+  start
+}
+
+function status {
+  if isrunning
+  then
+    client_result "Application is running"
+  else
+    client_result "Application is either stopped or inaccessible"
+  fi
+}
+
+function catchall {
+    echo "not yet implemented"
+}
+
+case "$1" in
+  start)                start ;;
+  stop)                 stop ;;
+  restart)              restart ;;
+  status)               status ;;
+  reload)               catchall ;;
+  tidy)                 catchall ;;
+  pre-build)            catchall ;;
+  build)                catchall ;;
+  deploy)               catchall ;;
+  post-deploy)          catchall ;;
+  pre-snapshot)         catchall ;;
+  post-snapshot)        catchall ;;
+  pre-restore)          catchall ;;
+  post-restore)         catchall ;;
+  pre-repo-archive)     catchall ;;
+  update-configuration) catchall ;;
+  *)           exit 0
+esac
+
+exit 0
