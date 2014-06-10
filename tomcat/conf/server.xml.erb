@@ -1,4 +1,4 @@
-<Server port="8015" shutdown="SHUTDOWN">
+<Server port="-1" shutdown="SHUTDOWN">
 
     <Service name="Catalina">
         <Connector port="<%= ENV['OPENSHIFT_ARTIFACTORY_PORT']%>" address="<%= ENV['OPENSHIFT_ARTIFACTORY_IP']%>"/>
