@@ -1,0 +1,11 @@
+#!/bin/sh
+
+#Default values
+#export ARTIFACTORY_HOME=/var/opt/jfrog/artifactory
+#export ARTIFACTORY_USER=artifactory
+#export JAVA_HOME=/opt/java/1.7.0
+
+export TOMCAT_HOME=$ARTIFACTORY_HOME/tomcat
+export ARTIFACTORY_PID=$ARTIFACTORY_HOME/run/artifactory.pid
+
+export JAVA_OPTIONS="-server -Xms512m -Xmx512g -Xss256k -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+UseG1GC"
