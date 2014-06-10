@@ -10,7 +10,7 @@ Description: Meet Artifactory, the world’s most advanced repository manager. A
 Version: '1'
 License: MIT license
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: Anders Hedström
+Cartridge-Vendor: Anders Hedstrom
 Categories:
 - web_framework
 - instant_app
@@ -37,4 +37,3 @@ Endpoints:
 Scaling:
   Min: 1
   Max: 1
-  
