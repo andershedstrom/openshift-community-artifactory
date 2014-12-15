@@ -25,9 +25,9 @@ checkTomcatHome() {
 }
 
 createLogsLink() {
+    mkdir -p $ARTIFACTORY_HOME/logs/catalina || errorArtHome "Could not create dir $ARTIFACTORY_HOME/logs/catalina"
     if [ ! -L "$TOMCAT_HOME/logs" ];
     then
-        mkdir -p $ARTIFACTORY_HOME/logs/catalina || errorArtHome "Could not create dir $ARTIFACTORY_HOME/logs/catalina"
         ln -s $ARTIFACTORY_HOME/logs/catalina $TOMCAT_HOME/logs || \
             errorArtHome "Could not create link from $TOMCAT_HOME/logs to $ARTIFACTORY_HOME/logs/catalina"
     fi
@@ -110,7 +110,7 @@ echo finding
 }
 
 start() {
-    export CATALINA_OPTS="$JAVA_OPTIONS -Dartifactory.home=$ARTIFACTORY_HOME -Dfile.encoding=UTF8"
+    export CATALINA_OPTS="$JAVA_OPTIONS -Dartifactory.home=$ARTIFACTORY_HOME -Dfile.encoding=UTF8 -Djruby.compile.invokedynamic=false"
     export CATALINA_PID="$ARTIFACTORY_PID"
     [ -x $TOMCAT_HOME/bin/catalina.sh ] || chmod +x $TOMCAT_HOME/bin/*.sh
     if [ -z "$@" ];

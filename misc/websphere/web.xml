@@ -151,7 +151,7 @@
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.config.property.classpath</param-name>
-            <param-value>WEB-INF/lib/artifactory-rest-3.2.1.1.jar</param-value>
+            <param-value>WEB-INF/lib/artifactory-rest-3.4.2.jar</param-value>
         </init-param>
     </servlet>
 

@@ -50,6 +50,28 @@ createArtUser() {
     echo " DONE"
 }
 
+getArtGroup() {
+    if [ -n "$1" ]; then
+        ARTIFACTORY_GROUP=$1
+    fi
+}
+
+createArtGroup() {
+    [ "${ARTIFACTORY_GROUP}" == "" ] && return 0;
+    echo -n "Creating Group ${ARTIFACTORY_GROUP}..."
+    artifactoryGroupname=`getent group ${ARTIFACTORY_GROUP} | awk -F: '{print $1}'`
+    if [ "$artifactoryGroupname" = "${ARTIFACTORY_GROUP}" ]; then
+        echo -n "already exists..."
+    else
+        echo -n "creating..."
+        groupadd ${ARTIFACTORY_GROUP}
+        if [ ! $? ]; then
+            errorArtHome "Could not create Group ${ARTIFACTORY_GROUP}"
+        fi
+    fi
+    echo " DONE"
+}
+
 createArtEtc() {
     echo
     echo -n "Checking configuration link and files in $artEtcDir..."
@@ -166,7 +188,7 @@ prepareTomcat() {
 setPermissions() {
     echo
     echo -n "Setting file permissions..."
-    chown -R -L ${ARTIFACTORY_USER}: ${ARTIFACTORY_HOME} || errorArtHome "Could not set permissions"
+    chown -RL ${ARTIFACTORY_USER}:${ARTIFACTORY_GROUP} ${ARTIFACTORY_HOME} || errorArtHome "Could not set permissions"
     echo -e " DONE"
 }
 
@@ -184,13 +206,16 @@ artRunDir="$ARTIFACTORY_HOME/run"
 [ -n "$artServiceFile" ] || artServiceFile="/etc/init.d/artifactory"
 artDefaultFile="$artEtcDir/default"
 
-getArtUser
+getArtUser "$1"
+getArtGroup "$2"
 
 echo
-echo "Installing artifactory as a Unix service that will run as user ${ARTIFACTORY_USER}"
+echo "Installing artifactory as a Unix service that will run as user ${ARTIFACTORY_USER}${ARTIFACTORY_GROUP:+ and group $ARTIFACTORY_GROUP}"
 echo "Installing artifactory with home ${ARTIFACTORY_HOME}"
 
-createArtUser "$@"
+createArtUser
+
+createArtGroup
 
 createArtEtc
 
@@ -217,3 +242,4 @@ echo
 echo "Then activate artifactory with:"
 echo "> service artifactory start (or $artServiceFile start)"
 echo
+
