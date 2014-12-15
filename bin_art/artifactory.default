@@ -8,4 +8,4 @@
 export TOMCAT_HOME=$ARTIFACTORY_HOME/tomcat
 export ARTIFACTORY_PID=$ARTIFACTORY_HOME/run/artifactory.pid
 
-export JAVA_OPTIONS="-server -Xms512m -Xmx512m -Xss256k -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+UseG1GC"
+export JAVA_OPTIONS="-server -Xms512m -Xmx2g -Xss256k -XX:PermSize=128m -XX:MaxPermSize=256m -XX:+UseG1GC -Djruby.compile.invokedynamic=false"

@@ -113,6 +113,9 @@
     <logger name="org.artifactory">
         <level value="info"/>
     </logger>
+    <logger name="org.jfrog">
+        <level value="info"/>
+    </logger>
     <logger name="org.artifactory.security.AccessLogger" additivity="false">
         <level value="info"/>
         <appender-ref ref="ACCESS"/>

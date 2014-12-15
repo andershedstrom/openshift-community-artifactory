@@ -58,6 +58,7 @@
     <mimetype type="application/x-rpm" extensions="rpm" css="rpm"/>
     <mimetype type="application/x-rubygems" extensions="gem" css="gem"/>
     <mimetype type="application/x-ruby-marshal" extensions="rz" css="ruby-marshal"/>
+    <mimetype type="application/x-debian-package" extensions="deb" css="deb"/>
 
     <!-- not registered -->
     <mimetype type="text/x-scala-source" extensions="scala" viewable="true" syntax="scala"/>
