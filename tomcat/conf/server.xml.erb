@@ -1,10 +1,7 @@
-<Server port="8015" shutdown="SHUTDOWN">
+<Server port="-1" shutdown="SHUTDOWN">
 
     <Service name="Catalina">
-        <Connector port="8081"/>
-
-        <!-- This is the optional AJP connector -->
-        <Connector port="8019" protocol="AJP/1.3"/>
+        <Connector port="<%= ENV['OPENSHIFT_ARTIFACTORY_PORT']%>" address="<%= ENV['OPENSHIFT_ARTIFACTORY_IP']%>"/>
 
         <Engine name="Catalina" defaultHost="localhost">
             <Host name="localhost" appBase="webapps"/>
