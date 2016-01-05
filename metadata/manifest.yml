@@ -5,11 +5,10 @@ Cartridge-Short-Name: ARTIFACTORY
 Display-Name: Artifactory Repository Manager
 Description: Meet Artifactory, the world’s most advanced repository manager. Artifactory
   offers powerful enterprise features and fine-grained permission control behind a sleek
-  and easy-to-use UI. See the Artifactory info page for more. Based on Artifactory 3.2.1.1
-  1.509+
-Version: '1'
+  and easy-to-use UI. See the Artifactory info page for more. Based on Artifactory 4.4.0
+Version: '4.4.0'
 License: MIT license
-Cartridge-Version: 0.0.1
+Cartridge-Version: 0.0.2
 Cartridge-Vendor: andershedstrom
 Categories:
 - web_framework

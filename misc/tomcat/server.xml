@@ -9,7 +9,6 @@
         <Engine name="Catalina" defaultHost="localhost">
             <Host name="localhost" appBase="webapps"/>
         </Engine>
-
     </Service>
 </Server>
 
