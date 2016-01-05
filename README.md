@@ -11,7 +11,7 @@ This cartridge runs Artifactory on OpenShift (Artifactory requires Java, so you 
     rhc add-cartridge "https://cartreflect-claytondev.rhcloud.com/reflect?github=andershedstrom/openshift-community-oracle-jdk-8" -a YOUR_APP_NAME
 
 
-Give some time to start up...
+Give it some time to start up...
 
 For the Artifactory user guide please visit: [Jfrog wiki](http://wiki.jfrog.org/confluence/display/RTF)
 
