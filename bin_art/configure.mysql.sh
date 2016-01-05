@@ -14,9 +14,9 @@ artBinDefault="$artBinDir/artifactory.default"
 
 ARTIFACTORY_HOME="$(cd "$(dirname "$artBinDir")" && pwd)" #default to extract dir
 
-if [ -x $artEtcDefault ]; then
+if [ -e $artEtcDefault ]; then
     . $artEtcDefault
-elif [ -x $artBinDefault ]; then
+elif [ -e $artBinDefault ]; then
     . $artBinDefault
 else
     error "Could not find artifactory default file"
@@ -215,7 +215,7 @@ JDBC_JAR=mysql-connector-java-$JDBC_VERSION.jar
 downloadMysqlConnector() {
   if [ -z `type -P wget` ]; then
     echo
-    error "Unable to find wget: Try running \"yum install wget\" and then retry the MySQL configuration"
+    error "Unable to find wget: Try running \"yum or apt-get install wget\" and then retry the MySQL configuration"
   fi
 
   echo

@@ -94,7 +94,6 @@ artifactory soft nproc $minNbProcess
 artifactory hard nproc $minNbProcess
 to your /etc/security/limits.conf file."
         fi
-
         su -l $ARTIFACTORY_USER -c "$TOMCAT_HOME/bin/startup.sh"
         RETVAL=$?
         if [ $RETVAL -ne 0 ]; then
@@ -102,7 +101,8 @@ to your /etc/security/limits.conf file."
         fi
         findShutdownPort
         nbSeconds=1
-        while [ $SHUTDOWN_PORT -eq 0 ] && [ $nbSeconds -lt 60 ]; do
+        START_TMO=${START_TMO:-60}
+        while [ $SHUTDOWN_PORT -eq 0 ] && [ $nbSeconds -lt $START_TMO ]; do
             sleep 1
             let "nbSeconds = $nbSeconds + 1"
             findShutdownPort
@@ -171,6 +171,30 @@ stop() {
     [ $RETVAL=0 ] && rm -f "$CATALINA_LOCK_FILE" "$ARTIFACTORY_PID"
 }
 
+start_and_wait() {
+    start
+    if [ -e $ARTIFACTORY_PID ]; then
+	PID=$(cat $ARTIFACTORY_PID)
+	while [ ! -e ~artifactory/logs/artifactory.log ]; do
+	    sleep 10
+	done
+	tail -f ~artifactory/logs/artifactory.log &
+	terminating() {
+	    echo received stop
+	    stop
+	    while [ -e $ARTIFACTORY_PID ] || [ ps $PID >/dev/null 2>&1 ]; do
+		sleep 1
+	    done
+	    exit 0
+	}
+	trap terminating SIGINT SIGTERM
+	while :; do
+	    sleep 5
+	done
+    fi
+    echo Something went wrong $PID $?
+}
+
 status() {
     findShutdownPort
     if [ $SHUTDOWN_PORT -eq 0 ]; then
@@ -208,12 +232,38 @@ check() {
     echo "JAVA_OPTIONS         =  $JAVA_OPTIONS"
     echo
 
+    checkJavaVersion
+
     exit 1
+}
+
+checkJavaVersion(){
+    if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+        echo found java executable in JAVA_HOME
+        _java="$JAVA_HOME/bin/java"
+    elif type -p java; then
+        _java=java
+    else
+        echo "no java"
+    fi
+
+    if [[ "$_java" ]]; then
+        $_java -version 2>&1| \
+        awk -F\" '/version/{\
+            if ($2 < 1.8) {\
+                printf "%s is too old must be at least java 1.8\n", $2;\
+                exit 0;\
+            } else exit 1}' && exit 99
+    fi
 }
 
 #
 ARTIFACTORY_PID=""
 artDefaultFile="/etc/opt/jfrog/artifactory/default"
+
+if [ ! -e $artDefaultFile ]; then
+    sed '/ARTIFACTORY/s/^#//;/ARTIFACTORY_PID/s-$ARTIFACTORY_HOME-/var/opt/jfrog-' </opt/jfrog/artifactory/bin/artifactory.default >$artDefaultFile
+fi
 
 . $artDefaultFile || errorArtHome "ERROR: $artDefaultFile does not exist or not executable"
 
@@ -233,8 +283,13 @@ checkArtUser
 
 case "$1" in
   start)
+        checkJavaVersion
         start
         ;;
+  wait)
+        checkJavaVersion
+	    start_and_wait
+	    ;;
   stop)
         stop
         ;;

@@ -216,3 +216,4 @@ echo "You can now start Artifactory."
 echo "Press enter to exit..."
 read
 exit 0
+

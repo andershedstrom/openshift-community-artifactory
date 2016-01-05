@@ -25,9 +25,9 @@ checkTomcatHome() {
 }
 
 createLogsLink() {
+    mkdir -p $ARTIFACTORY_HOME/logs/catalina || errorArtHome "Could not create dir $ARTIFACTORY_HOME/logs/catalina"
     if [ ! -L "$TOMCAT_HOME/logs" ];
     then
-        mkdir -p $ARTIFACTORY_HOME/logs/catalina || errorArtHome "Could not create dir $ARTIFACTORY_HOME/logs/catalina"
         ln -s $ARTIFACTORY_HOME/logs/catalina $TOMCAT_HOME/logs || \
             errorArtHome "Could not create link from $TOMCAT_HOME/logs to $ARTIFACTORY_HOME/logs/catalina"
     fi
@@ -110,7 +110,7 @@ echo finding
 }
 
 start() {
-    export CATALINA_OPTS="$JAVA_OPTIONS -Dartifactory.home=$ARTIFACTORY_HOME -Dfile.encoding=UTF8"
+    export CATALINA_OPTS="$JAVA_OPTIONS -Dartifactory.home=$ARTIFACTORY_HOME -Dfile.encoding=UTF8 -Djruby.compile.invokedynamic=false"
     export CATALINA_PID="$ARTIFACTORY_PID"
     [ -x $TOMCAT_HOME/bin/catalina.sh ] || chmod +x $TOMCAT_HOME/bin/*.sh
     if [ -z "$@" ];
@@ -151,6 +151,26 @@ check() {
     exit 1
 }
 
+checkJavaVersion(){
+    if [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+        echo found java executable in JAVA_HOME
+        _java="$JAVA_HOME/bin/java"
+    elif type -p java; then
+        _java=java
+    else
+        echo "no java"
+    fi
+
+    if [[ "$_java" ]]; then
+        $_java -version 2>&1| \
+        awk -F\" '/version/{\
+            if ($2 < 1.8) {\
+                printf "%s is too old must be at least java 1.8\n", $2;\
+                exit 0;\
+            } else exit 1}' && exit 99
+    fi
+}
+
 #
 artBinDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export ARTIFACTORY_HOME="$(cd "$(dirname "${artBinDir}")" && pwd)"
@@ -162,6 +182,7 @@ if [ "x$1" = "xcheck" ]; then
     check
 fi
 
+checkJavaVersion
 checkArtHome
 checkTomcatHome
 createLogsLink

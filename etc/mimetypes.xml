@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Artifactory is a binaries repository manager.
-  ~ Copyright (C) 2012 JFrog Ltd.
+  ~ Copyright (C) 2015 JFrog Ltd.
   ~
   ~ Artifactory is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU Lesser General Public License as published by
@@ -29,7 +29,7 @@
         syntax - The UI highlighter syntax to for this mime type (only relevant if this is a viewable type)
         css - The css class of a display icon for this mime type
 -->
-<mimetypes version="6">
+<mimetypes version="8">
 
     <mimetype type="text/plain" extensions="txt, properties, mf, asc" viewable="true" syntax="plain"/>
     <mimetype type="text/html" extensions="htm, html" viewable="true" syntax="xml"/>
@@ -50,14 +50,16 @@
     <mimetype type="application/x-java-pack200" extensions="jar.pack.gz" archive="true" index="true" css="jar"/>
     <mimetype type="application/x-java-archive-diff" extensions="jardiff" archive="false"/>
     <mimetype type="application/zip" extensions="zip" archive="true" index="true" css="jar"/>
-    <mimetype type="application/x-tar" extensions="tar" archive="false" index="false"/>
-    <mimetype type="application/x-gzip" extensions="tgz, tar.gz, gz" archive="false" index="false"/>
+    <mimetype type="application/x-tar" extensions="tar" archive="true" index="false"/>
+    <mimetype type="application/x-gzip" extensions="tgz, tar.gz, gz" archive="true" index="false"/>
     <mimetype type="application/x-nupkg" extensions="nupkg" archive="true" index="true" css="nupkg"/>
     <mimetype type="application/x-rar-compressed" extensions="rar" archive="false" css="jar"/>
     <mimetype type="application/vnd.android.package-archive" extensions="apk" archive="true" index="true" css="apk"/>
     <mimetype type="application/x-rpm" extensions="rpm" css="rpm"/>
     <mimetype type="application/x-rubygems" extensions="gem" css="gem"/>
     <mimetype type="application/x-ruby-marshal" extensions="rz" css="ruby-marshal"/>
+    <mimetype type="application/x-debian-package" extensions="deb" css="deb"/>
+    <mimetype type="application/x-vagrant-box" extensions="box" css="box"/>
 
     <!-- not registered -->
     <mimetype type="text/x-scala-source" extensions="scala" viewable="true" syntax="scala"/>
@@ -70,8 +72,8 @@
          DO NOT change them unless you really know what you are doing
     -->
     <mimetype type="application/xml" extensions="xml, xsl, xsi" viewable="true" syntax="xml" css="xml"/>
-    <mimetype type="application/x-maven-pom+xml" extensions="pom" viewable="true" syntax="xml" index="true" css="pom"/>
-    <mimetype type="application/x-ivy+xml" extensions="ivy" viewable="true" syntax="xml" index="true" css="xml"/>
+    <mimetype type="application/x-maven-pom+xml" extensions="pom" viewable="true" syntax="xml" css="pom"/>
+    <mimetype type="application/x-ivy+xml" extensions="ivy" viewable="true" syntax="xml" css="xml"/>
     <mimetype type="application/x-nuspec+xml" extensions="nuspec" viewable="true" syntax="xml" css="xml"/>
     <mimetype type="application/x-java-jnlp-file" extensions="jnlp" viewable="true" syntax="xml" css="jnlp"/>
     <mimetype type="application/x-checksum" extensions="sha1, md5" viewable="true" syntax="plain"/>
